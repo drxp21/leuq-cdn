@@ -212,7 +212,7 @@
     const apiUrl = script ? script.getAttribute('data-api-url') || 'http://78.46.123.249/api' : 'http://78.46.123.249/api';
     
     // Fetch chatbot configuration
-    fetch(`${apiUrl}/get_chatbot?id=${chatbotId}`)
+    fetch(`${apiUrl}/chatbot-info=${chatbotId}`)
       .then(response => response.json())
       .then(chatbotConfig => {
         if (!chatbotConfig || !chatbotConfig.id) {
