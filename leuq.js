@@ -212,53 +212,61 @@
     const apiUrl = script ? script.getAttribute('data-api-url') || 'http://78.46.123.249/api' : 'http://78.46.123.249/api';
     
     // Fetch chatbot configuration
-    fetch(`${apiUrl}/chatbot-info=${chatbotId}`)
+    fetch(`${apiUrl}/chatbot-info`, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+          client_id: chatbotId,
+      }),
+  })
       .then(response => response.json())
       .then(chatbotConfig => {
-        if (!chatbotConfig || !chatbotConfig.id) {
-          showInvalidConfig();
-          return;
-        }
-        
-        // Remove loading indicator
-        container.innerHTML = '';
-        
-        // Create chat button
-        const chatButton = document.createElement('div');
-        chatButton.className = 'my-gpt-chat-button';
-        chatButton.style.backgroundColor = chatbotConfig.color || '#3B82F6';
-        chatButton.innerHTML = '<span class="my-gpt-chat-icon">💬</span>';
-        container.appendChild(chatButton);
-        
-        // Create iframe for the chat
-        const iframe = document.createElement('iframe');
-        iframe.className = 'my-gpt-chatbot-frame';
-        iframe.title = 'Chat';
-        iframe.frameBorder = '0';
-        container.appendChild(iframe);
-        
-        // Set up button click event
-        chatButton.addEventListener('click', () => {
-          iframe.style.display = 'block';
-          chatButton.style.display = 'none';
-          
-          // If iframe isn't loaded yet, load the chatbot interface
-          if (!iframe.src) {
-            loadChatInterface(iframe, chatbotConfig, clientId, apiUrl);
+          if (!chatbotConfig || !chatbotConfig.id) {
+              showInvalidConfig();
+              return;
           }
-        });
-        
-        // Listen for close event from iframe
-        window.addEventListener('message', (event) => {
-          if (event.data === 'closeChatbot') {
-            iframe.style.display = 'none';
-            chatButton.style.display = 'flex';
-          }
-        });
+  
+          // Remove loading indicator
+          container.innerHTML = '';
+  
+          // Create chat button
+          const chatButton = document.createElement('div');
+          chatButton.className = 'my-gpt-chat-button';
+          chatButton.style.backgroundColor = chatbotConfig.color || '#3B82F6';
+          chatButton.innerHTML = '<span class="my-gpt-chat-icon">💬</span>';
+          container.appendChild(chatButton);
+  
+          // Create iframe for the chat
+          const iframe = document.createElement('iframe');
+          iframe.className = 'my-gpt-chatbot-frame';
+          iframe.title = 'Chat';
+          iframe.frameBorder = '0';
+          container.appendChild(iframe);
+  
+          // Set up button click event
+          chatButton.addEventListener('click', () => {
+              iframe.style.display = 'block';
+              chatButton.style.display = 'none';
+  
+              // If iframe isn't loaded yet, load the chatbot interface
+              if (!iframe.src) {
+                  loadChatInterface(iframe, chatbotConfig, clientId, apiUrl);
+              }
+          });
+  
+          // Listen for close event from iframe
+          window.addEventListener('message', (event) => {
+              if (event.data === 'closeChatbot') {
+                  iframe.style.display = 'none';
+                  chatButton.style.display = 'flex';
+              }
+          });
       })
       .catch(error => {
-        console.error('Error loading chatbot:', error);
-        showInvalidConfig();
+          console.error('Error loading chatbot:', error);
+          showInvalidConfig();
       });
   }
 
