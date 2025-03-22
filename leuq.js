@@ -209,7 +209,7 @@
     // Get the script attributes
     const script = document.querySelector('script[data-chatbot-id]');
     const chatbotId = script ? script.getAttribute('data-chatbot-id') : null;
-    const apiUrl = script ? script.getAttribute('data-api-url') || 'http://78.46.123.249/api' : 'http://78.46.123.249/api';
+    const apiUrl = script ? script.getAttribute('data-api-url') || 'https://leuq-ai.com/api' : 'https://leuq-ai.com/api';
     
     // Fetch chatbot configuration
     fetch(`${apiUrl}/chatbot-info`, {
@@ -658,7 +658,7 @@
                 <!-- Assistant Message -->
                 <div v-else-if="message.role === 'assistant'" class="flex items-start gap-2 max-w-[85%]">
                   <img class="rounded-full w-8 h-8 mt-1 border border-gray-200 dark:border-gray-700"
-                    :src="chatbotConfig.pfp || 'http://78.46.123.249/xiv337.png'" alt="Assistant" />
+                    :src="chatbotConfig.pfp || 'https://leuq-ai.com/xiv337.png'" alt="Assistant" />
                   <div
                     class="inline-block bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 p-3 rounded-lg shadow rounded-tl-none border border-gray-200 dark:border-gray-700">
                     <!-- Use v-html for initial messages with content, and an id for streaming messages -->
